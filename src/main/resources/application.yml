@@ -16,7 +16,8 @@ spring:
     properties:
       hibernate:
         format_sql: true
-  management:
+
+management:
   endpoints:
     web:
       exposure:
