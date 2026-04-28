@@ -25,3 +25,7 @@ management:
   endpoint:
     health:
       show-details: always
+
+cloud:
+  aws:
+    region: ap-northeast-2
