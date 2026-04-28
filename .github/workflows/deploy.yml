@@ -70,7 +70,9 @@ jobs:
           sudo docker stop aws-lab-app || true
           sudo docker rm aws-lab-app || true
           sudo docker pull ${{ steps.login-ecr.outputs.registry }}/aws-lab-app:latest
-          sudo docker run -d --name aws-lab-app -p 8080:8080 ${{ steps.login-ecr.outputs.registry }}/aws-lab-app:latest
+            # .env 파일에서 S3_BUCKET_NAME 값을 읽어와 환경 변수로 주입
+            export S3_BUCKET_NAME=$(grep '^S3_BUCKET_NAME=' ./build/.env | cut -d '=' -f2)
+            sudo docker run -d --name aws-lab-app -p 8080:8080 -e S3_BUCKET_NAME="$S3_BUCKET_NAME" ${{ steps.login-ecr.outputs.registry }}/aws-lab-app:latest
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
